@@ -7,7 +7,7 @@
   <style>
     body {
       margin: 0;
-      background-color: #000;
+      background: radial-gradient(ellipse at center, #0c0c0c 0%, #000000 100%);
       font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
       color: #fff;
       height: 100vh;
@@ -17,7 +17,8 @@
     }
 
     .terminal {
-      background-color: #1e1e1e;
+      backdrop-filter: blur(15px);
+      background-color: rgba(30, 30, 30, 0.6);
       border-radius: 8px;
       width: 600px;
       max-width: 90%;
@@ -52,17 +53,20 @@
 
     .menu-item {
       white-space: pre;
+      padding: 2px 6px;
+      display: inline-block;
     }
 
     .highlight {
-      background-color: rgba(255,255,255,0.15);
+      background-color: #ffffff;
+      color: #000000;
     }
 
     .cursor {
       display: inline-block;
       width: 10px;
       height: 1em;
-      background: #fff;
+      background: currentColor;
       margin-left: 4px;
       animation: blink 1s step-end infinite;
     }
