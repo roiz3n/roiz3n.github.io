@@ -125,8 +125,8 @@
 Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next" target="_blank">KernelSU Next</a>)
       </div>
       <div id="links">
-<a href="https://h264qsv.t.me" target="_blank">Telegram</a>
-<a href="https://steamcommunity.com/profiles/76561199571513678" target="_blank">Steam</a>
+<a href="https://h264qsv.t.me" target="_blank">Telegram</a> - https://h264qsv.t.me
+<a href="https://steamcommunity.com/profiles/76561199571513678" target="_blank">Steam</a> - https://steamcommunity.com/profiles/76561199571513678
       </div>
     </div>
   </div>
@@ -180,9 +180,13 @@
       if (e.key === 'ArrowRight') {
         selected = (selected + 1) % items.length;
         updateHighlight();
+        const section = items[selected].getAttribute('data-section');
+        showSection(section);
       } else if (e.key === 'ArrowLeft') {
         selected = (selected - 1 + items.length) % items.length;
         updateHighlight();
+        const section = items[selected].getAttribute('data-section');
+        showSection(section);
       } else if (e.key === 'Enter') {
         const section = items[selected].getAttribute('data-section');
         showSection(section);
