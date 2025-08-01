@@ -55,6 +55,7 @@
       white-space: pre;
       padding: 2px 6px;
       display: inline-block;
+      cursor: default;
     }
 
     .highlight {
@@ -71,6 +72,34 @@
       animation: blink 1s step-end infinite;
     }
 
+    #about-container {
+      display: none;
+      padding-top: 10px;
+      white-space: pre-wrap;
+    }
+
+    #about-container a {
+      color: #00afff;
+      text-decoration: none;
+    }
+    #about-container a:hover {
+      text-decoration: underline;
+    }
+
+    #command-line {
+      opacity: 0;
+      animation: fadeIn 0.2s ease-in forwards;
+    }
+
+    #about-text {
+      opacity: 0;
+      animation: fadeIn 0.4s ease-in 0.2s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
     @keyframes blink {
       50% { opacity: 0; }
     }
@@ -83,15 +112,31 @@
       <div class="button minimize"></div>
       <div class="button maximize"></div>
     </div>
-    <div class="terminal-body" id="menu">
-      <div class="menu-item highlight">&gt; About me<span class="cursor"></span></div>
-      <div class="menu-item">&gt; Devices</div>
-      <div class="menu-item">&gt; Links</div>
+    <div class="terminal-body">
+      <div id="menu">
+        <div class="menu-item highlight">&gt; About me<span class="cursor"></span></div>
+        <div class="menu-item">&gt; Devices</div>
+        <div class="menu-item">&gt; Links</div>
+      </div>
+      <div id="about-container">
+        <div id="command-line">cat about.txt</div>
+        <div id="about-text">
+Имя: Влад
+14 лет, день рождения 08.06.2011
+Страна/регион: Украина, Одесская область
+Текущая ОС: I use arch btw
+Текущий WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland" target="_blank">end-4</a>)
+Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next" target="_blank">KernelSU Next</a>)
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
     const items = document.querySelectorAll('.menu-item');
+    const aboutContainer = document.getElementById('about-container');
+    const commandLine = document.getElementById('command-line');
+    const aboutText = document.getElementById('about-text');
     let selected = 0;
 
     function updateHighlight() {
@@ -101,23 +146,38 @@
       });
 
       items[selected].classList.add('highlight');
-
       const cursor = document.createElement('span');
       cursor.classList.add('cursor');
       items[selected].appendChild(cursor);
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'ArrowRight') {
         selected = (selected + 1) % items.length;
         updateHighlight();
-      } else if (e.key === 'ArrowUp') {
+        aboutContainer.style.display = 'none';
+      } else if (e.key === 'ArrowLeft') {
         selected = (selected - 1 + items.length) % items.length;
         updateHighlight();
+        aboutContainer.style.display = 'none';
       } else if (e.key === 'Enter') {
-        alert(`Opening: ${items[selected].textContent.trim().replace('> ', '')}`);
+        const selectedText = items[selected].textContent.trim().replace('> ', '');
+        if (selectedText === 'About me') {
+          aboutContainer.style.display = 'block';
+          commandLine.style.opacity = 0;
+          aboutText.style.opacity = 0;
+          void commandLine.offsetWidth; // force reflow
+          void aboutText.offsetWidth;
+          commandLine.style.animation = 'fadeIn 0.2s ease-in forwards';
+          aboutText.style.animation = 'fadeIn 0.4s ease-in 0.2s forwards';
+        } else {
+          aboutContainer.style.display = 'none';
+          alert(`Opening: ${selectedText}`);
+        }
       }
     });
+
+    updateHighlight();
   </script>
 </body>
 </html>
