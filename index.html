@@ -64,12 +64,16 @@
       border-radius: 4px;
       transition: all 0.2s ease;
     }
-    .menu-item:hover {
+    .menu-item:hover:not(.highlight) {
       background-color: rgba(255, 255, 255, 0.1);
     }
-    .highlight {
+    .menu-item:active {
       background-color: #ffffff;
       color: #000000;
+    }
+    .highlight {
+      background-color: #ffffff !important;
+      color: #000000 !important;
     }
     #command {
       display: none;
@@ -125,8 +129,8 @@
 Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next" target="_blank">KernelSU Next</a>)
       </div>
       <div id="links">
-<a href="https://h264qsv.t.me" target="_blank">Telegram</a> - https://h264qsv.t.me
-<a href="https://steamcommunity.com/profiles/76561199571513678" target="_blank">Steam</a> - https://steamcommunity.com/profiles/76561199571513678
+<a href="https://h264qsv.t.me" target="_blank">Telegram</a>
+<a href="https://steamcommunity.com/profiles/76561199571513678" target="_blank">Steam</a>
       </div>
     </div>
   </div>
@@ -145,22 +149,31 @@
     }
 
     function showSection(section) {
-      // Hide all sections first
+      // Hide all sections immediately
       aboutBlock.style.display = 'none';
       linksBlock.style.display = 'none';
       commandLine.style.display = 'none';
 
+      // Clear any pending timeouts to prevent content mixing
+      clearTimeout(window.contentTimeout);
+
       if (section === 'about') {
         commandLine.textContent = 'cat about.txt';
         commandLine.style.display = 'block';
-        setTimeout(() => {
-          aboutBlock.style.display = 'block';
+        window.contentTimeout = setTimeout(() => {
+          // Double check that we're still showing the about section
+          if (items[selected].getAttribute('data-section') === 'about') {
+            aboutBlock.style.display = 'block';
+          }
         }, 300);
       } else if (section === 'links') {
         commandLine.textContent = 'cat links.txt';
         commandLine.style.display = 'block';
-        setTimeout(() => {
-          linksBlock.style.display = 'block';
+        window.contentTimeout = setTimeout(() => {
+          // Double check that we're still showing the links section
+          if (items[selected].getAttribute('data-section') === 'links') {
+            linksBlock.style.display = 'block';
+          }
         }, 300);
       }
     }
