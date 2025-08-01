@@ -10,22 +10,22 @@
       background: radial-gradient(ellipse at center, #0c0c0c 0%, #000000 100%);
       font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
       color: #fff;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
     }
-
     .terminal {
       backdrop-filter: blur(15px);
       background-color: rgba(30, 30, 30, 0.6);
       border-radius: 8px;
-      width: 600px;
-      max-width: 90%;
+      width: 100%;
+      max-width: 600px;
       box-shadow: 0 0 25px rgba(0,0,0,0.7);
       overflow: hidden;
     }
-
     .terminal-header {
       background-color: #2b2b2b;
       height: 28px;
@@ -34,52 +34,77 @@
       padding: 0 12px;
       gap: 8px;
     }
-
     .button {
       width: 12px;
       height: 12px;
       border-radius: 50%;
     }
-
     .close { background: #ff605c; }
     .minimize { background: #ffbd44; }
     .maximize { background: #00ca4e; }
-
     .terminal-body {
       padding: 20px;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.4;
     }
-
+    @media (max-width: 480px) {
+      .terminal-body {
+        padding: 15px;
+        font-size: 12px;
+      }
+    }
     .menu-item {
       white-space: pre;
-      padding: 2px 6px;
+      padding: 8px 6px;
       display: inline-block;
-      cursor: default;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 4px;
+      transition: all 0.2s ease;
     }
-
+    .menu-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
     .highlight {
       background-color: #ffffff;
       color: #000000;
     }
-
     #command {
       display: none;
       margin-top: 10px;
     }
-
     #about {
       display: none;
-      padding-top: 4px;
+      padding-top: 8px;
+      padding-bottom: 8px;
       white-space: pre-wrap;
     }
-
     #about a {
       color: #00afff;
       text-decoration: none;
     }
     #about a:hover {
       text-decoration: underline;
+    }
+    #links {
+      display: none;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    #links a {
+      color: #00afff;
+      text-decoration: none;
+      display: block;
+      margin: 4px 0;
+      padding: 4px 0;
+    }
+    #links a:hover {
+      text-decoration: underline;
+      background-color: rgba(0, 175, 255, 0.1);
+      padding-left: 4px;
+      transition: all 0.2s ease;
     }
   </style>
 </head>
@@ -92,10 +117,10 @@
     </div>
     <div class="terminal-body">
       <div id="menu">
-        <div class="menu-item highlight">&gt; About me</div>
-        <div class="menu-item">&gt; Links</div>
+        <div class="menu-item highlight" data-section="about">&gt; About me</div>
+        <div class="menu-item" data-section="links">&gt; Links</div>
       </div>
-      <div id="command">cat about.txt</div>
+      <div id="command"></div>
       <div id="about">
 Имя: Влад
 14 лет, день рождения 08.06.2011
@@ -104,12 +129,16 @@
 Текущий WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland" target="_blank">end-4</a>)
 Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next" target="_blank">KernelSU Next</a>)
       </div>
+      <div id="links">
+<a href="https://h264qsv.t.me" target="_blank">Telegram</a>
+<a href="https://steamcommunity.com/profiles/76561199571513678" target="_blank">Steam</a>
+      </div>
     </div>
   </div>
-
   <script>
     const items = document.querySelectorAll('.menu-item');
     const aboutBlock = document.getElementById('about');
+    const linksBlock = document.getElementById('links');
     const commandLine = document.getElementById('command');
     let selected = 0;
 
@@ -117,36 +146,56 @@
       items.forEach((item, index) => {
         item.classList.remove('highlight');
       });
-
       items[selected].classList.add('highlight');
     }
 
+    function showSection(section) {
+      // Hide all sections first
+      aboutBlock.style.display = 'none';
+      linksBlock.style.display = 'none';
+      commandLine.style.display = 'none';
+
+      if (section === 'about') {
+        commandLine.textContent = 'cat about.txt';
+        commandLine.style.display = 'block';
+        setTimeout(() => {
+          aboutBlock.style.display = 'block';
+        }, 300);
+      } else if (section === 'links') {
+        commandLine.textContent = 'cat links.txt';
+        commandLine.style.display = 'block';
+        setTimeout(() => {
+          linksBlock.style.display = 'block';
+        }, 300);
+      }
+    }
+
+    // Touch/click support
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        selected = index;
+        updateHighlight();
+        const section = item.getAttribute('data-section');
+        showSection(section);
+      });
+    });
+
+    // Keyboard support (desktop)
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
         selected = (selected + 1) % items.length;
         updateHighlight();
-        aboutBlock.style.display = 'none';
-        commandLine.style.display = 'none';
       } else if (e.key === 'ArrowLeft') {
         selected = (selected - 1 + items.length) % items.length;
         updateHighlight();
-        aboutBlock.style.display = 'none';
-        commandLine.style.display = 'none';
       } else if (e.key === 'Enter') {
-        const selectedText = items[selected].textContent.trim().replace('> ', '');
-        if (selectedText === 'About me') {
-          commandLine.style.display = 'block';
-          aboutBlock.style.display = 'none';
-          setTimeout(() => {
-            aboutBlock.style.display = 'block';
-          }, 300);
-        } else {
-          aboutBlock.style.display = 'none';
-          commandLine.style.display = 'none';
-          alert(`Opening: ${selectedText}`);
-        }
+        const section = items[selected].getAttribute('data-section');
+        showSection(section);
       }
     });
+
+    // Show initial content
+    showSection('about');
   </script>
 </body>
 </html>
