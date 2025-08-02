@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>roiz3n — Terminal [RETRO]</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000000;
+      font-family: "Courier New", Courier, monospace;
+      color: #00ff00;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: auto;
+    }
+    .terminal {
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      color: #00ff00;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    .cursor {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    .menu-item {
+      background: transparent;
+      color: #00ff00;
+      margin: 2px 0;
+    }
+    .menu-item.selected {
+      background: #00ff00;
+      color: #000000;
+    }
+    .content {
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+    .content a {
+      color: #00ff00;
+      text-decoration: none;
+    }
+    .content a:hover {
+      text-decoration: underline;
+    }
+    .version-link {
+      color: #00ff00;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .version-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal">
+    <div>roiz3n@terminal:~$ cd old && ./index.html</div>
+    
+    <div style="margin: 20px 0;">
+      <div class="menu-item selected" data-section="about">> About me</div>
+      <div class="menu-item" data-section="links">> Links</div>
+      <div class="menu-item" data-section="languages">> Languages</div>
+      <div class="menu-item" onclick="switchVersion()">> Switch to modern version</div>
+    </div>
+
+    <div style="margin: 10px 0;">
+      <span id="current-command">cat about.txt</span><span class="cursor">_</span>
+    </div>
+    
+    <div class="content" id="content-area">
+Name: Vlad
+Age: 14 years old
+Birthday: 08.06.2011
+Location: Ukraine, Odessa region
+OS: I use arch btw
+WM: Hyprland (end-4 config)
+Phone: Redmi Note 10 Pro [6/128] (KernelSU Next)
+Interests: Root access, Root hiding, Linux, Android, AOSP, Music
+    </div>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+    let currentSection = 'about';
+    let selectedIndex = 0;
+    let languageSelectedIndex = 0;
+    let inLanguageMenu = false;
+    const menuItems = document.querySelectorAll('.menu-item[data-section], .menu-item[onclick]');
+    const languages = ['en', 'ru', 'uk'];
+    
+    const content = {
+      en: {
+        about: `Name: Vlad
+Age: 14 years old
+Birthday: 08.06.2011
+Location: Ukraine, Odessa region
+OS: I use arch btw
+WM: Hyprland (end-4 config)
+Phone: Redmi Note 10 Pro [6/128] (KernelSU Next)
+Interests: Root access, Root hiding, Linux, Android, AOSP, Music`,
+        links: `Telegram - https://h264qsv.t.me
+OpenVK - https://ovk.to/r01z3n
+Steam - https://steamcommunity.com/profiles/76561199571513678`,
+        languages: `Available languages:
+> English
+  Russian
+  Ukrainian
+
+Use arrow keys to select, Enter to confirm`
+      },
+      ru: {
+        about: `Имя: Влад
+Возраст: 14 лет
+День рождения: 08.06.2011
+Местоположение: Украина, Одесская область
+ОС: I use arch btw
+WM: Hyprland (end-4 config)
+Телефон: Redmi Note 10 Pro [6/128] (KernelSU Next)
+Интересы: Root права, Скрытие root, Linux, Android, AOSP, Музыка`,
+        links: `Telegram - https://h264qsv.t.me
+OpenVK - https://ovk.to/r01z3n
+Steam - https://steamcommunity.com/profiles/76561199571513678`,
+        languages: `Доступные языки:
+> Английский
+  Русский
+  Украинский
+
+Используйте стрелки для выбора, Enter для подтверждения`
+      },
+      uk: {
+        about: `Ім'я: Влад
+Вік: 14 років
+День народження: 08.06.2011
+Місцезнаходження: Україна, Одеська область
+ОС: I use arch btw
+WM: Hyprland (end-4 config)
+Телефон: Redmi Note 10 Pro [6/128] (KernelSU Next)
+Інтереси: Root права, Приховування root, Linux, Android, AOSP, Музика`,
+        links: `Telegram - https://h264qsv.t.me
+OpenVK - https://ovk.to/r01z3n
+Steam - https://steamcommunity.com/profiles/76561199571513678`,
+        languages: `Доступні мови:
+> Англійська
+  Російська
+  Українська
+
+Використовуйте стрілки для вибору, Enter для підтвердження`
+      }
+    };
+
+    function updateHighlight() {
+      menuItems.forEach((item, index) => {
+        item.classList.remove('selected');
+      });
+      if (menuItems[selectedIndex]) {
+        menuItems[selectedIndex].classList.add('selected');
+      }
+    }
+
+    function updateCommand(cmd) {
+      document.getElementById('current-command').textContent = cmd;
+    }
+
+    function updateContent(section) {
+      const contentArea = document.getElementById('content-area');
+      let text = content[currentLang][section];
+      
+      if (section === 'languages') {
+        inLanguageMenu = true;
+        // Update language selection display
+        const langOptions = {
+          en: ['> English', '  Russian', '  Ukrainian'],
+          ru: ['  Английский', '> Русский', '  Украинский'],
+          uk: ['  Англійська', '  Російська', '> Українська']
+        };
+        
+        const currentLangOptions = langOptions[currentLang].slice();
+        currentLangOptions[languageSelectedIndex] = currentLangOptions[languageSelectedIndex].replace('  ', '> ').replace('> > ', '> ');
+        
+        text = text.split('\n');
+        text[1] = currentLangOptions[0];
+        text[2] = currentLangOptions[1];
+        text[3] = currentLangOptions[2];
+        text = text.join('\n');
+      } else {
+        inLanguageMenu = false;
+      }
+      
+      // Make URLs clickable
+      text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+      
+      contentArea.innerHTML = text;
+      currentSection = section;
+    }
+
+    function showSection(section) {
+      let command = '';
+      if (section === 'about') command = 'cat about.txt';
+      else if (section === 'links') command = 'cat links.txt';
+      else if (section === 'languages') command = 'cat languages.txt';
+      
+      updateCommand(command);
+      setTimeout(() => {
+        updateContent(section);
+      }, 300);
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      updateCommand(`setlang ${lang}`);
+      setTimeout(() => {
+        updateContent(currentSection);
+      }, 500);
+    }
+
+    function switchVersion() {
+      // Store current state
+      localStorage.setItem('currentLang', currentLang);
+      localStorage.setItem('fromRetro', 'true');
+      // Redirect to modern version
+      window.location.href = '../index.html';
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (inLanguageMenu) {
+        if (e.key === 'ArrowDown') {
+          languageSelectedIndex = (languageSelectedIndex + 1) % 3;
+          updateContent('languages');
+        } else if (e.key === 'ArrowUp') {
+          languageSelectedIndex = (languageSelectedIndex - 1 + 3) % 3;
+          updateContent('languages');
+        } else if (e.key === 'Enter') {
+          setLanguage(languages[languageSelectedIndex]);
+        }
+      } else {
+        if (e.key === 'ArrowDown') {
+          selectedIndex = (selectedIndex + 1) % menuItems.length;
+          updateHighlight();
+        } else if (e.key === 'ArrowUp') {
+          selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+          updateHighlight();
+        } else if (e.key === 'Enter') {
+          const selectedItem = menuItems[selectedIndex];
+          const section = selectedItem.getAttribute('data-section');
+          if (section) {
+            showSection(section);
+          } else if (selectedItem.textContent.includes('Switch to modern')) {
+            switchVersion();
+          }
+        }
+      }
+    });
+
+    // Language input
+    // Removed language input functionality - now using arrows
+
+    // Check if coming from modern version
+    if (localStorage.getItem('fromModern') === 'true') {
+      const savedLang = localStorage.getItem('currentLang');
+      if (savedLang) {
+        currentLang = savedLang;
+      }
+      localStorage.removeItem('fromModern');
+    }
+
+    // Initialize
+    showSection('about');
+  </script>
+</body>
+</html>
