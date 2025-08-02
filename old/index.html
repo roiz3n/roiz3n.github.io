@@ -411,6 +411,12 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
       }
     }
 
+    function setLanguageByIndex(index) {
+      if (languages[index]) {
+        setLanguage(languages[index]);
+      }
+    }
+
     // Check if coming from modern version
     try {
       const storage = window.localStorage || {};
