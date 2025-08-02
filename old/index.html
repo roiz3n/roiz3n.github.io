@@ -11,16 +11,22 @@
       font-family: "Courier New", Courier, monospace;
       color: #00ff00;
       height: 100vh;
-      padding: 20px;
+      padding: 10px;
       box-sizing: border-box;
       overflow: auto;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     .terminal {
       width: 100%;
       height: 100%;
       background: #000000;
       color: #00ff00;
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1.4;
     }
     .cursor {
@@ -33,22 +39,39 @@
     .menu-item {
       background: transparent;
       color: #00ff00;
-      margin: 2px 0;
+      margin: 8px 0;
+      padding: 12px 8px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: rgba(0, 255, 0, 0.3);
+      min-height: 20px;
+      display: block;
+    }
+    .menu-item:hover, .menu-item:active {
+      border: 1px solid #00ff00;
+      background: rgba(0, 255, 0, 0.1);
     }
     .menu-item.selected {
       background: #00ff00;
       color: #000000;
+      border: 1px solid #00ff00;
     }
     .content {
       margin: 10px 0;
       white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 13px;
     }
     .content a {
       color: #00ff00;
       text-decoration: none;
+      word-break: break-all;
     }
-    .content a:hover {
+    .content a:hover, .content a:active {
       text-decoration: underline;
+      background: rgba(0, 255, 0, 0.1);
     }
     .version-link {
       color: #00ff00;
@@ -58,20 +81,88 @@
     .version-link:hover {
       text-decoration: underline;
     }
+    .language-option {
+      padding: 8px 4px;
+      margin: 4px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+      -webkit-tap-highlight-color: rgba(0, 255, 0, 0.3);
+    }
+    .language-option:hover, .language-option:active {
+      background: rgba(0, 255, 0, 0.1);
+    }
+    .language-option.highlighted {
+      background: rgba(0, 255, 0, 0.2);
+      border: 1px solid #00ff00;
+    }
+    .language-option.current-lang {
+      background: rgba(0, 255, 0, 0.1);
+    }
+    .language-option.current-lang.highlighted {
+      background: #00ff00;
+      color: #000000;
+    }
+    .command-line {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .header {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+      .terminal {
+        font-size: 13px;
+      }
+      .menu-item {
+        padding: 16px 12px;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      .content {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .language-option {
+        padding: 12px 8px;
+        margin: 6px 0;
+        font-size: 13px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .terminal {
+        font-size: 12px;
+      }
+      .menu-item {
+        padding: 18px 15px;
+        margin: 12px 0;
+        font-size: 13px;
+      }
+      .content {
+        font-size: 11px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="terminal">
-    <div>roiz3n@terminal:~$ cd old && ./index.html</div>
+    <div class="header">roiz3n@terminal:~$ cd old && ./index.html</div>
     
     <div style="margin: 20px 0;">
-      <div class="menu-item selected" data-section="about">> About me</div>
-      <div class="menu-item" data-section="links">> Links</div>
-      <div class="menu-item" data-section="languages">> Languages</div>
+      <div class="menu-item selected" data-section="about" onclick="handleMenuClick(this, 'about')">> About me</div>
+      <div class="menu-item" data-section="links" onclick="handleMenuClick(this, 'links')">> Links</div>
+      <div class="menu-item" data-section="languages" onclick="handleMenuClick(this, 'languages')">> Languages</div>
       <div class="menu-item" onclick="switchVersion()">> Switch to modern version</div>
     </div>
 
-    <div style="margin: 10px 0;">
+    <div class="command-line">
       <span id="current-command">cat about.txt</span><span class="cursor">_</span>
     </div>
     
@@ -110,11 +201,11 @@ Interests: Root access, Root hiding, Linux, Android, AOSP, Music`,
 OpenVK - https://ovk.to/r01z3n
 Steam - https://steamcommunity.com/profiles/76561199571513678`,
         languages: `Available languages:
-> English
-  Russian
-  Ukrainian
+Tap to select language
 
-Use arrow keys to select, Enter to confirm`
+English
+Russian
+Ukrainian`
       },
       ru: {
         about: `Имя: Влад
@@ -129,11 +220,11 @@ WM: Hyprland (end-4 config)
 OpenVK - https://ovk.to/r01z3n
 Steam - https://steamcommunity.com/profiles/76561199571513678`,
         languages: `Доступные языки:
-> Английский
-  Русский
-  Украинский
+Нажмите для выбора языка
 
-Используйте стрелки для выбора, Enter для подтверждения`
+Английский
+Русский
+Украинский`
       },
       uk: {
         about: `Ім'я: Влад
@@ -148,21 +239,25 @@ WM: Hyprland (end-4 config)
 OpenVK - https://ovk.to/r01z3n
 Steam - https://steamcommunity.com/profiles/76561199571513678`,
         languages: `Доступні мови:
-> Англійська
-  Російська
-  Українська
+Натисніть для вибору мови
 
-Використовуйте стрілки для вибору, Enter для підтвердження`
+Англійська
+Російська
+Українська`
       }
     };
 
-    function updateHighlight() {
-      menuItems.forEach((item, index) => {
-        item.classList.remove('selected');
-      });
-      if (menuItems[selectedIndex]) {
-        menuItems[selectedIndex].classList.add('selected');
-      }
+    function handleMenuClick(element, section) {
+      // Remove selected class from all menu items
+      menuItems.forEach(item => item.classList.remove('selected'));
+      // Add selected class to clicked item
+      element.classList.add('selected');
+      
+      // Update selected index
+      selectedIndex = Array.from(menuItems).indexOf(element);
+      
+      // Show section
+      showSection(section);
     }
 
     function updateCommand(cmd) {
@@ -175,21 +270,27 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
       
       if (section === 'languages') {
         inLanguageMenu = true;
-        // Update language selection display
-        const langOptions = {
-          en: ['> English', '  Russian', '  Ukrainian'],
-          ru: ['  Английский', '> Русский', '  Украинский'],
-          uk: ['  Англійська', '  Російська', '> Українська']
+        // Create clickable language options
+        const langNames = {
+          en: ['English', 'Russian', 'Ukrainian'],
+          ru: ['Английский', 'Русский', 'Украинский'],
+          uk: ['Англійська', 'Російська', 'Українська']
         };
         
-        const currentLangOptions = langOptions[currentLang].slice();
-        currentLangOptions[languageSelectedIndex] = currentLangOptions[languageSelectedIndex].replace('  ', '> ').replace('> > ', '> ');
+        const header = text.split('\n')[0] + '\n' + text.split('\n')[1] + '\n\n';
+        let langOptions = '';
         
-        text = text.split('\n');
-        text[1] = currentLangOptions[0];
-        text[2] = currentLangOptions[1];
-        text[3] = currentLangOptions[2];
-        text = text.join('\n');
+        langNames[currentLang].forEach((langName, index) => {
+          const isCurrentLang = languages[index] === currentLang;
+          const isHighlighted = index === languageSelectedIndex;
+          const prefix = isHighlighted ? '> ' : '  ';
+          const classes = `language-option ${isCurrentLang ? 'current-lang' : ''} ${isHighlighted ? 'highlighted' : ''}`;
+          
+          langOptions += `<div class="${classes}" onclick="setLanguageByIndex(${index})">${prefix}${langName}</div>`;
+        });
+        
+        contentArea.innerHTML = header + langOptions;
+        return;
       } else {
         inLanguageMenu = false;
       }
@@ -205,33 +306,60 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
       let command = '';
       if (section === 'about') command = 'cat about.txt';
       else if (section === 'links') command = 'cat links.txt';
-      else if (section === 'languages') command = 'cat languages.txt';
+      else if (section === 'languages') {
+        command = 'cat languages.txt';
+        // Initialize language selection to current language
+        languageSelectedIndex = languages.indexOf(currentLang);
+      }
       
       updateCommand(command);
       setTimeout(() => {
         updateContent(section);
-      }, 300);
+      }, 100);
     }
 
     function setLanguage(lang) {
       currentLang = lang;
       updateCommand(`setlang ${lang}`);
+      
+      // Update language selection display immediately
       setTimeout(() => {
-        updateContent(currentSection);
-      }, 500);
+        updateContent('languages');
+      }, 200);
+      
+      // Update menu items text based on language
+      setTimeout(() => {
+        const menuTexts = {
+          en: ['> About me', '> Links', '> Languages', '> Switch to modern version'],
+          ru: ['> Обо мне', '> Ссылки', '> Языки', '> Переключиться на современную версию'],
+          uk: ['> Про мене', '> Посилання', '> Мови', '> Перейти до сучасної версії']
+        };
+        
+        menuItems.forEach((item, index) => {
+          if (menuTexts[currentLang] && menuTexts[currentLang][index]) {
+            item.textContent = menuTexts[currentLang][index];
+          }
+        });
+      }, 300);
     }
 
     function switchVersion() {
       // Store current state
-      localStorage.setItem('currentLang', currentLang);
-      localStorage.setItem('fromRetro', 'true');
+      const storage = window.localStorage || {};
+      try {
+        storage.setItem('currentLang', currentLang);
+        storage.setItem('fromRetro', 'true');
+      } catch(e) {
+        // Storage not available
+      }
       // Redirect to modern version
-      window.location.href = '../index.html';
+      window.location.href = '../';
     }
 
-    // Keyboard navigation
+    // Keep keyboard navigation for desktop users
     document.addEventListener('keydown', (e) => {
       if (inLanguageMenu) {
+        e.preventDefault(); // Prevent default arrow key behavior
         if (e.key === 'ArrowDown') {
           languageSelectedIndex = (languageSelectedIndex + 1) % 3;
           updateContent('languages');
@@ -240,36 +368,61 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
           updateContent('languages');
         } else if (e.key === 'Enter') {
           setLanguage(languages[languageSelectedIndex]);
+        } else if (e.key === 'Escape') {
+          // Exit language menu
+          inLanguageMenu = false;
+          showSection('about');
+          // Reset menu selection to About
+          menuItems.forEach(item => item.classList.remove('selected'));
+          menuItems[0].classList.add('selected');
+          selectedIndex = 0;
         }
       } else {
         if (e.key === 'ArrowDown') {
+          e.preventDefault();
           selectedIndex = (selectedIndex + 1) % menuItems.length;
           updateHighlight();
         } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
           selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
           updateHighlight();
         } else if (e.key === 'Enter') {
           const selectedItem = menuItems[selectedIndex];
           const section = selectedItem.getAttribute('data-section');
           if (section) {
-            showSection(section);
-          } else if (selectedItem.textContent.includes('Switch to modern')) {
+            if (section === 'languages') {
+              // Initialize language selection index to current language
+              languageSelectedIndex = languages.indexOf(currentLang);
+            }
+            handleMenuClick(selectedItem, section);
+          } else if (selectedItem.textContent.includes('Switch to modern') || selectedItem.textContent.includes('Переключиться') || selectedItem.textContent.includes('Перейти')) {
             switchVersion();
           }
         }
       }
     });
 
-    // Language input
-    // Removed language input functionality - now using arrows
+    function updateHighlight() {
+      menuItems.forEach((item, index) => {
+        item.classList.remove('selected');
+      });
+      if (menuItems[selectedIndex]) {
+        menuItems[selectedIndex].classList.add('selected');
+      }
+    }
 
     // Check if coming from modern version
-    if (localStorage.getItem('fromModern') === 'true') {
-      const savedLang = localStorage.getItem('currentLang');
-      if (savedLang) {
-        currentLang = savedLang;
+    try {
+      const storage = window.localStorage || {};
+      if (storage.getItem('fromModern') === 'true') {
+        const savedLang = storage.getItem('currentLang');
+        if (savedLang) {
+          currentLang = savedLang;
+        }
+        storage.removeItem('fromModern');
       }
-      localStorage.removeItem('fromModern');
+    } catch(e) {
+      // Storage not available
     }
 
     // Initialize
