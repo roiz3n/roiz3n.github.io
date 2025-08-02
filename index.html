@@ -159,7 +159,7 @@
       <div id="menu">
         <div class="menu-item highlight" data-section="about">&gt; <span class="menu-text">About me</span></div>
         <div class="menu-item" data-section="links">&gt; <span class="menu-text">Links</span></div>
-        <div class="menu-item" onclick="switchToRetro()">&gt; Switch to legacy version</div>
+        <div class="menu-item" onclick="switchToRetro()">&gt; <span class="legacy-text">Switch to legacy version</span></div>
       </div>
       <div id="command"></div>
       <div id="about">
@@ -197,6 +197,7 @@ Interests: Root rights, Root hiding on phone, Linux, Android, AOSP, Music</span>
       en: {
         aboutMenu: 'About me',
         linksMenu: 'Links',
+        legacyMenu: 'Switch to legacy version',
         aboutContent: `Name: Vlad
 14 years old, birthday 08.06.2011
 Country/region: Ukraine, Odessa region
@@ -208,6 +209,7 @@ Interests: Root rights, Root hiding on phone, Linux, Android, AOSP, Music`
       ru: {
         aboutMenu: 'Обо мне',
         linksMenu: 'Ссылки',
+        legacyMenu: 'Переключиться на устаревшую версию',
         aboutContent: `Имя: Влад
 14 лет, день рождения 08.06.2011
 Страна/регион: Украина, Одесская область
@@ -219,6 +221,7 @@ Interests: Root rights, Root hiding on phone, Linux, Android, AOSP, Music`
       uk: {
         aboutMenu: 'Про мене',
         linksMenu: 'Посилання',
+        legacyMenu: 'Перейти до застарілої версії',
         aboutContent: `Ім'я: Влад
 14 років, день народження 08.06.2011
 Країна/регіон: Україна, Одеська область
@@ -288,25 +291,40 @@ Interests: Root rights, Root hiding on phone, Linux, Android, AOSP, Music`
       
       // Update translations
       const menuTexts = document.querySelectorAll('.menu-text');
+      const legacyText = document.querySelector('.legacy-text');
       menuTexts[0].textContent = translations[lang].aboutMenu;
       menuTexts[1].textContent = translations[lang].linksMenu;
+      legacyText.textContent = translations[lang].legacyMenu;
       
       document.querySelector('.about-content').innerHTML = translations[lang].aboutContent;
+      
+      // Store current language
+      try {
+        localStorage.setItem('currentLang', lang);
+      } catch(e) {
+        // Storage not available
+      }
       
       // Return to previous section after language change
       setTimeout(() => {
         showingLanguages = false;
         const currentSection = items[selected].getAttribute('data-section');
-        showSection(currentSection);
+        if (currentSection) {
+          showSection(currentSection);
+        }
       }, 1000);
     }
 
     function switchToRetro() {
       // Store current state
-      localStorage.setItem('currentLang', currentLang);
-      localStorage.setItem('fromModern', 'true');
-      // Redirect to retro version
-      window.location.href = 'old/index.html';
+      try {
+        localStorage.setItem('currentLang', currentLang);
+        localStorage.setItem('fromModern', 'true');
+      } catch(e) {
+        // Storage not available
+      }
+      // Redirect to retro version (clean URL without index.html)
+      window.location.href = './old/';
     }
 
     function closeWindow() {
@@ -350,19 +368,24 @@ Interests: Root rights, Root hiding on phone, Linux, Android, AOSP, Music`
         const section = selectedItem.getAttribute('data-section');
         if (section) {
           showSection(section);
-        } else if (selectedItem.textContent.includes('Switch to retro')) {
+        } else {
+          // This handles the "Switch to legacy version" button
           switchToRetro();
         }
       }
     });
 
     // Check if coming from retro version
-    if (localStorage.getItem('fromRetro') === 'true') {
-      const savedLang = localStorage.getItem('currentLang');
-      if (savedLang && savedLang !== currentLang) {
-        setLanguage(savedLang);
+    try {
+      if (localStorage.getItem('fromRetro') === 'true') {
+        const savedLang = localStorage.getItem('currentLang');
+        if (savedLang && savedLang !== currentLang) {
+          setLanguage(savedLang);
+        }
+        localStorage.removeItem('fromRetro');
       }
-      localStorage.removeItem('fromRetro');
+    } catch(e) {
+      // Storage not available
     }
 
     // Show initial content
