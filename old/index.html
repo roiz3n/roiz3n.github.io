@@ -8,18 +8,12 @@
     body {
       margin: 0;
       background: #000000;
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Courier New", monospace;
       color: #00ff00;
       height: 100vh;
       padding: 10px;
-      box-sizing: border-box;
       overflow: auto;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+      font-size: 14px;
     }
     .terminal {
       width: 100%;
@@ -28,13 +22,12 @@
       color: #00ff00;
       font-size: 14px;
       line-height: 1.4;
+      font-weight: normal;
     }
     .cursor {
-      animation: blink 1s infinite;
-    }
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
+      /* Removed blinking animation for old browsers */
+      background: #00ff00;
+      color: #000000;
     }
     .menu-item {
       background: transparent;
@@ -42,16 +35,15 @@
       margin: 8px 0;
       padding: 12px 8px;
       border: 1px solid transparent;
-      border-radius: 4px;
       cursor: pointer;
-      transition: all 0.2s ease;
-      -webkit-tap-highlight-color: rgba(0, 255, 0, 0.3);
       min-height: 20px;
       display: block;
+      font-family: "Courier New", monospace;
+      font-weight: normal;
     }
-    .menu-item:hover, .menu-item:active {
+    .menu-item:hover {
       border: 1px solid #00ff00;
-      background: rgba(0, 255, 0, 0.1);
+      background: #003300; /* Solid color instead of rgba */
     }
     .menu-item.selected {
       background: #00ff00;
@@ -63,15 +55,19 @@
       white-space: pre-wrap;
       word-break: break-word;
       font-size: 13px;
+      font-family: "Courier New", monospace;
+      font-weight: normal;
+      letter-spacing: 0;
     }
     .content a {
       color: #00ff00;
       text-decoration: none;
       word-break: break-all;
+      font-family: "Courier New", monospace;
     }
-    .content a:hover, .content a:active {
+    .content a:hover {
       text-decoration: underline;
-      background: rgba(0, 255, 0, 0.1);
+      background: #003300; /* Solid color instead of rgba */
     }
     .version-link {
       color: #00ff00;
@@ -85,19 +81,18 @@
       padding: 8px 4px;
       margin: 4px 0;
       cursor: pointer;
-      border-radius: 4px;
-      transition: background 0.2s ease;
-      -webkit-tap-highlight-color: rgba(0, 255, 0, 0.3);
+      font-family: "Courier New", monospace;
+      font-weight: normal;
     }
-    .language-option:hover, .language-option:active {
-      background: rgba(0, 255, 0, 0.1);
+    .language-option:hover {
+      background: #003300; /* Solid color instead of rgba */
     }
     .language-option.highlighted {
-      background: rgba(0, 255, 0, 0.2);
+      background: #006600; /* Solid color instead of rgba */
       border: 1px solid #00ff00;
     }
     .language-option.current-lang {
-      background: rgba(0, 255, 0, 0.1);
+      background: #003300; /* Solid color instead of rgba */
     }
     .language-option.current-lang.highlighted {
       background: #00ff00;
@@ -106,48 +101,23 @@
     .command-line {
       margin: 10px 0;
       font-size: 14px;
+      font-family: "Courier New", monospace;
+      font-weight: normal;
     }
     .header {
       margin: 10px 0;
       font-size: 14px;
+      font-family: "Courier New", monospace;
+      font-weight: normal;
     }
     
-    /* Mobile-specific adjustments */
-    @media (max-width: 768px) {
-      body {
-        padding: 8px;
-      }
-      .terminal {
-        font-size: 13px;
-      }
-      .menu-item {
-        padding: 16px 12px;
-        margin: 10px 0;
-        font-size: 14px;
-      }
-      .content {
-        font-size: 12px;
-        line-height: 1.5;
-      }
-      .language-option {
-        padding: 12px 8px;
-        margin: 6px 0;
-        font-size: 13px;
-      }
+    /* Simplified mobile styles without media queries for old browsers */
+    .mobile-friendly {
+      padding: 8px;
     }
     
-    @media (max-width: 480px) {
-      .terminal {
-        font-size: 12px;
-      }
-      .menu-item {
-        padding: 18px 15px;
-        margin: 12px 0;
-        font-size: 13px;
-      }
-      .content {
-        font-size: 11px;
-      }
+    .mobile-text {
+      font-size: 12px;
     }
   </style>
 </head>
@@ -174,120 +144,90 @@ Location: Ukraine, Odessa region
 OS: I use arch btw
 WM: Hyprland (end-4)
 Phone: Redmi Note 10 Pro [6/128] (KernelSU Next)
-Interests: Root access, Root hiding, Linux, Android, AOSP, Music
+Interests: Root, Root hiding, Linux, Android, AOSP, Music
     </div>
   </div>
 
   <script>
-    let currentLang = 'en';
-    let currentSection = 'about';
-    let selectedIndex = 0;
-    let languageSelectedIndex = 0;
-    let inLanguageMenu = false;
-    const menuItems = document.querySelectorAll('.menu-item[data-section], .menu-item[onclick]');
-    const languages = ['en', 'ru', 'uk'];
+    var currentLang = 'en';
+    var currentSection = 'about';
+    var selectedIndex = 0;
+    var languageSelectedIndex = 0;
+    var inLanguageMenu = false;
+    var menuItems = document.querySelectorAll('.menu-item[data-section], .menu-item[onclick]');
+    var languages = ['en', 'ru', 'uk'];
     
-    const content = {
+    var content = {
       en: {
-        about: `Name: Vlad
-Age: 14 years old
-Birthday: 08.06.2011
-Location: Ukraine, Odessa region
-OS: I use arch btw
-WM: Hyprland (end-4 config)
-Phone: Redmi Note 10 Pro [6/128] (KernelSU Next)
-Interests: Root access, Root hiding, Linux, Android, AOSP, Music`,
-        links: `Telegram - https://h264qsv.t.me
-OpenVK - https://ovk.to/r01z3n
-Steam - https://steamcommunity.com/profiles/76561199571513678`,
-        languages: `Available languages:
-Tap to select language
-
-English
-Russian
-Ukrainian`
+        about: "Name: Vlad\nAge: 14 years old\nBirthday: 08.06.2011\nLocation: Ukraine, Odessa region\nOS: I use arch btw\nWM: Hyprland (end-4 config)\nPhone: Redmi Note 10 Pro [6/128] (KernelSU Next)\nInterests: Root access, Root hiding, Linux, Android, AOSP, Music",
+        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
+        languages: "Available languages:\nTap to select language\n\nEnglish\nRussian\nUkrainian"
       },
       ru: {
-        about: `Имя: Влад
-Возраст: 14 лет
-День рождения: 08.06.2011
-Местоположение: Украина, Одесская область
-ОС: I use arch btw
-WM: Hyprland (end-4)
-Телефон: Redmi Note 10 Pro [6/128] (KernelSU Next)
-Интересы: Root права, Скрытие root, Linux, Android, AOSP, Музыка`,
-        links: `Telegram - https://h264qsv.t.me
-OpenVK - https://ovk.to/r01z3n
-Steam - https://steamcommunity.com/profiles/76561199571513678`,
-        languages: `Доступные языки:
-Нажмите для выбора языка
-
-Английский
-Русский
-Украинский`
+        about: "Имя: Влад\nВозраст: 14 лет\nДень рождения: 08.06.2011\nМестоположение: Украина, Одесская область\nОС: I use arch btw\nWM: Hyprland (end-4)\nТелефон: Redmi Note 10 Pro [6/128] (KernelSU Next)\nИнтересы: Root права, Скрытие root, Linux, Android, AOSP, Музыка",
+        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
+        languages: "Доступные языки:\nНажмите для выбора языка\n\nАнглийский\nРусский\nУкраинский"
       },
       uk: {
-        about: `Ім'я: Влад
-Вік: 14 років
-День народження: 08.06.2011
-Місцезнаходження: Україна, Одеська область
-ОС: I use arch btw
-WM: Hyprland (end-4)
-Телефон: Redmi Note 10 Pro [6/128] (KernelSU Next)
-Інтереси: Root права, Приховування root, Linux, Android, AOSP, Музика`,
-        links: `Telegram - https://h264qsv.t.me
-OpenVK - https://ovk.to/r01z3n
-Steam - https://steamcommunity.com/profiles/76561199571513678`,
-        languages: `Доступні мови:
-Натисніть для вибору мови
-
-Англійська
-Російська
-Українська`
+        about: "Ім'я: Влад\nВік: 14 років\nДень народження: 08.06.2011\nМісцезнаходження: Україна, Одеська область\nОС: I use arch btw\nWM: Hyprland (end-4)\nТелефон: Redmi Note 10 Pro [6/128] (KernelSU Next)\nІнтереси: Root права, Приховування root, Linux, Android, AOSP, Музика",
+        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
+        languages: "Доступні мови:\nНатисніть для вибору мови\n\nАнглійська\nРосійська\nУкраїнська"
       }
     };
 
     function handleMenuClick(element, section) {
       // Remove selected class from all menu items
-      menuItems.forEach(item => item.classList.remove('selected'));
+      for (var i = 0; i < menuItems.length; i++) {
+        menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
+      }
       // Add selected class to clicked item
-      element.classList.add('selected');
+      if (element.className.indexOf('selected') === -1) {
+        element.className += ' selected';
+      }
       
       // Update selected index
-      selectedIndex = Array.from(menuItems).indexOf(element);
+      for (var i = 0; i < menuItems.length; i++) {
+        if (menuItems[i] === element) {
+          selectedIndex = i;
+          break;
+        }
+      }
       
       // Show section
       showSection(section);
     }
 
     function updateCommand(cmd) {
-      document.getElementById('current-command').textContent = cmd;
+      document.getElementById('current-command').innerHTML = cmd;
     }
 
     function updateContent(section) {
-      const contentArea = document.getElementById('content-area');
-      let text = content[currentLang][section];
+      var contentArea = document.getElementById('content-area');
+      var text = content[currentLang][section];
       
       if (section === 'languages') {
         inLanguageMenu = true;
-        // Create clickable language options
-        const langNames = {
+        var langNames = {
           en: ['English', 'Russian', 'Ukrainian'],
           ru: ['Английский', 'Русский', 'Украинский'],
           uk: ['Англійська', 'Російська', 'Українська']
         };
         
-        const header = text.split('\n')[0] + '\n' + text.split('\n')[1] + '\n\n';
-        let langOptions = '';
+        var lines = text.split('\n');
+        var header = lines[0] + '\n' + lines[1] + '\n\n';
+        var langOptions = '';
         
-        langNames[currentLang].forEach((langName, index) => {
-          const isCurrentLang = languages[index] === currentLang;
-          const isHighlighted = index === languageSelectedIndex;
-          const prefix = isHighlighted ? '> ' : '  ';
-          const classes = `language-option ${isCurrentLang ? 'current-lang' : ''} ${isHighlighted ? 'highlighted' : ''}`;
+        for (var i = 0; i < langNames[currentLang].length; i++) {
+          var langName = langNames[currentLang][i];
+          var isCurrentLang = languages[i] === currentLang;
+          var isHighlighted = i === languageSelectedIndex;
+          var prefix = isHighlighted ? '> ' : '  ';
+          var classes = 'language-option';
+          if (isCurrentLang) classes += ' current-lang';
+          if (isHighlighted) classes += ' highlighted';
           
-          langOptions += `<div class="${classes}" onclick="setLanguageByIndex(${index})">${prefix}${langName}</div>`;
-        });
+          langOptions += '<div class="' + classes + '" onclick="setLanguageByIndex(' + i + ')">' + prefix + langName + '</div>';
+        }
         
         contentArea.innerHTML = header + langOptions;
         return;
@@ -295,60 +235,68 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
         inLanguageMenu = false;
       }
       
-      // Make URLs clickable
-      text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+      // Make URLs clickable - simple regex for old browsers
+      text = text.replace(/https?:\/\/[^\s]+/g, function(match) {
+        return '<a href="' + match + '" target="_blank">' + match + '</a>';
+      });
       
       contentArea.innerHTML = text;
       currentSection = section;
     }
 
     function showSection(section) {
-      let command = '';
+      var command = '';
       if (section === 'about') command = 'cat about.txt';
       else if (section === 'links') command = 'cat links.txt';
       else if (section === 'languages') {
         command = 'cat languages.txt';
         // Initialize language selection to current language
-        languageSelectedIndex = languages.indexOf(currentLang);
+        for (var i = 0; i < languages.length; i++) {
+          if (languages[i] === currentLang) {
+            languageSelectedIndex = i;
+            break;
+          }
+        }
       }
       
       updateCommand(command);
-      setTimeout(() => {
+      setTimeout(function() {
         updateContent(section);
       }, 100);
     }
 
     function setLanguage(lang) {
       currentLang = lang;
-      updateCommand(`setlang ${lang}`);
+      updateCommand('setlang ' + lang);
       
       // Update language selection display immediately
-      setTimeout(() => {
+      setTimeout(function() {
         updateContent('languages');
       }, 200);
       
       // Update menu items text based on language
-      setTimeout(() => {
-        const menuTexts = {
+      setTimeout(function() {
+        var menuTexts = {
           en: ['> About me', '> Links', '> Languages', '> Switch to modern version'],
           ru: ['> Обо мне', '> Ссылки', '> Языки', '> Переключиться на современную версию'],
           uk: ['> Про мене', '> Посилання', '> Мови', '> Перейти до сучасної версії']
         };
         
-        menuItems.forEach((item, index) => {
-          if (menuTexts[currentLang] && menuTexts[currentLang][index]) {
-            item.textContent = menuTexts[currentLang][index];
+        for (var i = 0; i < menuItems.length; i++) {
+          if (menuTexts[currentLang] && menuTexts[currentLang][i]) {
+            menuItems[i].innerHTML = menuTexts[currentLang][i];
           }
-        });
+        }
       }, 300);
     }
 
     function switchVersion() {
-      // Store current state
-      const storage = window.localStorage || {};
+      // Store current state - simplified for old browsers
       try {
-        storage.setItem('currentLang', currentLang);
-        storage.setItem('fromRetro', 'true');
+        if (window.localStorage) {
+          window.localStorage.setItem('currentLang', currentLang);
+          window.localStorage.setItem('fromRetro', 'true');
+        }
       } catch(e) {
         // Storage not available
       }
@@ -356,58 +304,69 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
       window.location.href = '../';
     }
 
-    // Keep keyboard navigation for desktop users
-    document.addEventListener('keydown', (e) => {
-      if (inLanguageMenu) {
-        e.preventDefault(); // Prevent default arrow key behavior
-        if (e.key === 'ArrowDown') {
-          languageSelectedIndex = (languageSelectedIndex + 1) % 3;
-          updateContent('languages');
-        } else if (e.key === 'ArrowUp') {
-          languageSelectedIndex = (languageSelectedIndex - 1 + 3) % 3;
-          updateContent('languages');
-        } else if (e.key === 'Enter') {
-          setLanguage(languages[languageSelectedIndex]);
-        } else if (e.key === 'Escape') {
-          // Exit language menu
-          inLanguageMenu = false;
-          showSection('about');
-          // Reset menu selection to About
-          menuItems.forEach(item => item.classList.remove('selected'));
-          menuItems[0].classList.add('selected');
-          selectedIndex = 0;
-        }
-      } else {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          selectedIndex = (selectedIndex + 1) % menuItems.length;
-          updateHighlight();
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
-          updateHighlight();
-        } else if (e.key === 'Enter') {
-          const selectedItem = menuItems[selectedIndex];
-          const section = selectedItem.getAttribute('data-section');
-          if (section) {
-            if (section === 'languages') {
-              // Initialize language selection index to current language
-              languageSelectedIndex = languages.indexOf(currentLang);
+    // Simplified keyboard navigation for old browsers
+    if (document.addEventListener) {
+      document.addEventListener('keydown', function(e) {
+        var keyCode = e.keyCode || e.which;
+        
+        if (inLanguageMenu) {
+          if (e.preventDefault) e.preventDefault();
+          if (keyCode === 40) { // Down arrow
+            languageSelectedIndex = (languageSelectedIndex + 1) % 3;
+            updateContent('languages');
+          } else if (keyCode === 38) { // Up arrow
+            languageSelectedIndex = (languageSelectedIndex - 1 + 3) % 3;
+            updateContent('languages');
+          } else if (keyCode === 13) { // Enter
+            setLanguage(languages[languageSelectedIndex]);
+          } else if (keyCode === 27) { // Escape
+            inLanguageMenu = false;
+            showSection('about');
+            // Reset menu selection to About
+            for (var i = 0; i < menuItems.length; i++) {
+              menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
             }
-            handleMenuClick(selectedItem, section);
-          } else if (selectedItem.textContent.includes('Switch to modern') || selectedItem.textContent.includes('Переключиться') || selectedItem.textContent.includes('Перейти')) {
-            switchVersion();
+            menuItems[0].className += ' selected';
+            selectedIndex = 0;
+          }
+        } else {
+          if (keyCode === 40) { // Down arrow
+            if (e.preventDefault) e.preventDefault();
+            selectedIndex = (selectedIndex + 1) % menuItems.length;
+            updateHighlight();
+          } else if (keyCode === 38) { // Up arrow
+            if (e.preventDefault) e.preventDefault();
+            selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
+            updateHighlight();
+          } else if (keyCode === 13) { // Enter
+            var selectedItem = menuItems[selectedIndex];
+            var section = selectedItem.getAttribute('data-section');
+            if (section) {
+              if (section === 'languages') {
+                for (var i = 0; i < languages.length; i++) {
+                  if (languages[i] === currentLang) {
+                    languageSelectedIndex = i;
+                    break;
+                  }
+                }
+              }
+              handleMenuClick(selectedItem, section);
+            } else if (selectedItem.innerHTML.indexOf('Switch to modern') !== -1 || 
+                      selectedItem.innerHTML.indexOf('Переключиться') !== -1 || 
+                      selectedItem.innerHTML.indexOf('Перейти') !== -1) {
+              switchVersion();
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     function updateHighlight() {
-      menuItems.forEach((item, index) => {
-        item.classList.remove('selected');
-      });
+      for (var i = 0; i < menuItems.length; i++) {
+        menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
+      }
       if (menuItems[selectedIndex]) {
-        menuItems[selectedIndex].classList.add('selected');
+        menuItems[selectedIndex].className += ' selected';
       }
     }
 
@@ -417,15 +376,16 @@ Steam - https://steamcommunity.com/profiles/76561199571513678`,
       }
     }
 
-    // Check if coming from modern version
+    // Check if coming from modern version - simplified for old browsers
     try {
-      const storage = window.localStorage || {};
-      if (storage.getItem('fromModern') === 'true') {
-        const savedLang = storage.getItem('currentLang');
-        if (savedLang) {
-          currentLang = savedLang;
+      if (window.localStorage) {
+        if (window.localStorage.getItem('fromModern') === 'true') {
+          var savedLang = window.localStorage.getItem('currentLang');
+          if (savedLang) {
+            currentLang = savedLang;
+          }
+          window.localStorage.removeItem('fromModern');
         }
-        storage.removeItem('fromModern');
       }
     } catch(e) {
       // Storage not available
