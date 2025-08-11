@@ -16,7 +16,7 @@ const translations = {
 Country/region: Ukraine, Odessa region
 Current OS: I use arch btw
 Current WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland">end-4</a>)
-Phone: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next">KernelSU Next</a>)
+Phone: Redmi Note 10 Pro[6/128] (<a href="https://github.com/TheWildJames/KernelSU-Next">KernelSU Next</a>)
 Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music`
   },
   ru: {
@@ -27,7 +27,7 @@ Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music`
 Страна/регион: Украина, Одесская область
 Текущая ОС: I use arch btw
 Текущий WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland">end-4</a>)
-Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next">KernelSU Next</a>)
+Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/TheWildJames/KernelSU-Next">KernelSU Next</a>)
 Интересы: Root права, Скрытие root на телефоне, Linux, Android, AOSP, Музыка`
   },
   uk: {
@@ -38,7 +38,7 @@ Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music`
 Країна/регіон: Україна, Одеська область
 Поточна ОС: I use arch btw
 Поточний WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland">end-4</a>)
-Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/KernelSU-Next/KernelSU-Next">KernelSU Next</a>)
+Телефон: Redmi Note 10 Pro[6/128] (<a href="https://github.com/TheWildJames/KernelSU-Next">KernelSU Next</a>)
 Інтереси: Root права, Приховування root на телефоні, Linux, Android, AOSP, Музика`
   }
 };
