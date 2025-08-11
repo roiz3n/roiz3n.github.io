@@ -11,7 +11,6 @@ const translations = {
   en: {
     aboutMenu: 'About me',
     linksMenu: 'Links',
-    legacyMenu: 'Switch to legacy version',
     aboutContent: `Name: Vlad
 14 years old, birthday 08.06.2011
 Country/region: Ukraine, Odessa region
@@ -23,7 +22,6 @@ Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music`
   ru: {
     aboutMenu: 'Обо мне',
     linksMenu: 'Ссылки',
-    legacyMenu: 'Переключиться на устаревшую версию',
     aboutContent: `Имя: Влад
 14 лет, день рождения 08.06.2011
 Страна/регион: Украина, Одесская область
@@ -35,7 +33,6 @@ Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music`
   uk: {
     aboutMenu: 'Про мене',
     linksMenu: 'Посилання',
-    legacyMenu: 'Перейти до застарілої версії',
     aboutContent: `Ім'я: Влад
 14 років, день народження 08.06.2011
 Країна/регіон: Україна, Одеська область
@@ -79,10 +76,6 @@ function setLanguage(lang) {
   document.querySelector('.legacy-text').textContent = translations[lang].legacyMenu;
   aboutBlock.innerHTML = translations[lang].aboutContent;
   showSection(items[selected].dataset.section || 'about');
-}
-
-function switchToRetro() {
-  window.location.href = './old/';
 }
 
 function closeWindow() {
