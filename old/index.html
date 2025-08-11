@@ -1,398 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>roiz3n's bio :3 [LEGACY]</title>
-  <style>
-    body {
-      margin: 0;
-      background: #000000;
-      font-family: "Courier New", monospace;
-      color: #00ff00;
-      height: 100vh;
-      padding: 10px;
-      overflow: auto;
-      font-size: 14px;
-    }
-    .terminal {
-      width: 100%;
-      height: 100%;
-      background: #000000;
-      color: #00ff00;
-      font-size: 14px;
-      line-height: 1.4;
-      font-weight: normal;
-    }
-    .cursor {
-      /* Removed blinking animation for old browsers */
-      background: #00ff00;
-      color: #000000;
-    }
-    .menu-item {
-      background: transparent;
-      color: #00ff00;
-      margin: 8px 0;
-      padding: 12px 8px;
-      border: 1px solid transparent;
-      cursor: pointer;
-      min-height: 20px;
-      display: block;
-      font-family: "Courier New", monospace;
-      font-weight: normal;
-    }
-    .menu-item:hover {
-      border: 1px solid #00ff00;
-      background: #003300; /* Solid color instead of rgba */
-    }
-    .menu-item.selected {
-      background: #00ff00;
-      color: #000000;
-      border: 1px solid #00ff00;
-    }
-    .content {
-      margin: 10px 0;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-size: 13px;
-      font-family: "Courier New", monospace;
-      font-weight: normal;
-      letter-spacing: 0;
-    }
-    .content a {
-      color: #00ff00;
-      text-decoration: none;
-      word-break: break-all;
-      font-family: "Courier New", monospace;
-    }
-    .content a:hover {
-      text-decoration: underline;
-      background: #003300; /* Solid color instead of rgba */
-    }
-    .version-link {
-      color: #00ff00;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .version-link:hover {
-      text-decoration: underline;
-    }
-    .language-option {
-      padding: 8px 4px;
-      margin: 4px 0;
-      cursor: pointer;
-      font-family: "Courier New", monospace;
-      font-weight: normal;
-    }
-    .language-option:hover {
-      background: #003300; /* Solid color instead of rgba */
-    }
-    .language-option.highlighted {
-      background: #006600; /* Solid color instead of rgba */
-      border: 1px solid #00ff00;
-    }
-    .language-option.current-lang {
-      background: #003300; /* Solid color instead of rgba */
-    }
-    .language-option.current-lang.highlighted {
-      background: #00ff00;
-      color: #000000;
-    }
-    .command-line {
-      margin: 10px 0;
-      font-size: 14px;
-      font-family: "Courier New", monospace;
-      font-weight: normal;
-    }
-    .header {
-      margin: 10px 0;
-      font-size: 14px;
-      font-family: "Courier New", monospace;
-      font-weight: normal;
-    }
-    
-    /* Simplified mobile styles without media queries for old browsers */
-    .mobile-friendly {
-      padding: 8px;
-    }
-    
-    .mobile-text {
-      font-size: 12px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>roiz3n's bio :3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="style-old.css">
+<![endif]-->
 </head>
 <body>
-  <div class="terminal">
-    <div class="header">roiz3n@terminal:~$ cd old && ./index.html</div>
-    
-    <div style="margin: 20px 0;">
-      <div class="menu-item selected" data-section="about" onclick="handleMenuClick(this, 'about')">> About me</div>
-      <div class="menu-item" data-section="links" onclick="handleMenuClick(this, 'links')">> Links</div>
-      <div class="menu-item" data-section="languages" onclick="handleMenuClick(this, 'languages')">> Languages</div>
-      <div class="menu-item" onclick="switchVersion()">> Switch to modern version</div>
+<div class="terminal">
+    <div class="terminal-header">
+        <div class="window-controls">
+            <div class="button close"></div>
+            <div class="button minimize"></div>
+            <div class="button maximize"></div>
+        </div>
+        <div class="language-toggle" onclick="toggleLanguage()">EN</div>
     </div>
-
-    <div class="command-line">
-      <span id="current-command">cat about.txt</span><span class="cursor">_</span>
+    <div class="terminal-body">
+        <div class="menu">
+            <span class="menu-item" onclick="showSection('about')">About</span>
+            <span class="menu-item" onclick="showSection('links')">Links</span>
+            <span class="menu-item" onclick="showSection('languages')">Languages</span>
+        </div>
+        <div id="command"></div>
+        <div id="about">
+            Hi! I’m roiz3n, a coder & tinkerer.
+        </div>
+        <div id="links">
+            <a href="https://github.com/">GitHub</a><br>
+            <a href="https://twitter.com/">Twitter</a>
+        </div>
+        <div id="languages">
+            <span class="lang-option" onclick="setLanguage('English')">English</span>
+            <span class="lang-option" onclick="setLanguage('Ukrainian')">Ukrainian</span>
+        </div>
     </div>
-    
-    <div class="content" id="content-area">
-Name: Vlad
-Age: 14 years old
-Birthday: 08.06.2011
-Location: Ukraine, Odessa region
-OS: I use arch btw
-WM: Hyprland (end-4)
-Phone: Redmi Note 10 Pro [6/128] (KernelSU Next)
-Interests: Root, Root hiding, Linux, Android, AOSP, Music
-    </div>
-  </div>
-
-  <script>
-    var currentLang = 'en';
-    var currentSection = 'about';
-    var selectedIndex = 0;
-    var languageSelectedIndex = 0;
-    var inLanguageMenu = false;
-    var menuItems = document.querySelectorAll('.menu-item[data-section], .menu-item[onclick]');
-    var languages = ['en', 'ru', 'uk'];
-    
-    var content = {
-      en: {
-        about: "Name: Vlad\nAge: 14 years old\nBirthday: 08.06.2011\nLocation: Ukraine, Odessa region\nOS: I use arch btw\nWM: Hyprland (end-4 config)\nPhone: Redmi Note 10 Pro [6/128] (KernelSU Next)\nInterests: Root, Root hiding, Linux, Android, AOSP, Music",
-        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
-        languages: "Available languages:\nTap to select language\n\nEnglish\nRussian\nUkrainian"
-      },
-      ru: {
-        about: "Имя: Влад\nВозраст: 14 лет\nДень рождения: 08.06.2011\nМестоположение: Украина, Одесская область\nОС: I use arch btw\nWM: Hyprland (end-4)\nТелефон: Redmi Note 10 Pro [6/128] (KernelSU Next)\nИнтересы: Root права, Скрытие root, Linux, Android, AOSP, Музыка",
-        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
-        languages: "Доступные языки:\nНажмите для выбора языка\n\nАнглийский\nРусский\nУкраинский"
-      },
-      uk: {
-        about: "Ім'я: Влад\nВік: 14 років\nДень народження: 08.06.2011\nМісцезнаходження: Україна, Одеська область\nОС: I use arch btw\nWM: Hyprland (end-4)\nТелефон: Redmi Note 10 Pro [6/128] (KernelSU Next)\nІнтереси: Root права, Приховування root, Linux, Android, AOSP, Музика",
-        links: "Telegram - https://h264qsv.t.me\nOpenVK - https://ovk.to/r01z3n\nSteam - https://steamcommunity.com/profiles/76561199571513678",
-        languages: "Доступні мови:\nНатисніть для вибору мови\n\nАнглійська\nРосійська\nУкраїнська"
-      }
-    };
-
-    function handleMenuClick(element, section) {
-      // Remove selected class from all menu items
-      for (var i = 0; i < menuItems.length; i++) {
-        menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
-      }
-      // Add selected class to clicked item
-      if (element.className.indexOf('selected') === -1) {
-        element.className += ' selected';
-      }
-      
-      // Update selected index
-      for (var i = 0; i < menuItems.length; i++) {
-        if (menuItems[i] === element) {
-          selectedIndex = i;
-          break;
-        }
-      }
-      
-      // Show section
-      showSection(section);
-    }
-
-    function updateCommand(cmd) {
-      document.getElementById('current-command').innerHTML = cmd;
-    }
-
-    function updateContent(section) {
-      var contentArea = document.getElementById('content-area');
-      var text = content[currentLang][section];
-      
-      if (section === 'languages') {
-        inLanguageMenu = true;
-        var langNames = {
-          en: ['English', 'Russian', 'Ukrainian'],
-          ru: ['Английский', 'Русский', 'Украинский'],
-          uk: ['Англійська', 'Російська', 'Українська']
-        };
-        
-        var lines = text.split('\n');
-        var header = lines[0] + '\n' + lines[1] + '\n\n';
-        var langOptions = '';
-        
-        for (var i = 0; i < langNames[currentLang].length; i++) {
-          var langName = langNames[currentLang][i];
-          var isCurrentLang = languages[i] === currentLang;
-          var isHighlighted = i === languageSelectedIndex;
-          var prefix = isHighlighted ? '> ' : '  ';
-          var classes = 'language-option';
-          if (isCurrentLang) classes += ' current-lang';
-          if (isHighlighted) classes += ' highlighted';
-          
-          langOptions += '<div class="' + classes + '" onclick="setLanguageByIndex(' + i + ')">' + prefix + langName + '</div>';
-        }
-        
-        contentArea.innerHTML = header + langOptions;
-        return;
-      } else {
-        inLanguageMenu = false;
-      }
-      
-      // Make URLs clickable - simple regex for old browsers
-      text = text.replace(/https?:\/\/[^\s]+/g, function(match) {
-        return '<a href="' + match + '" target="_blank">' + match + '</a>';
-      });
-      
-      contentArea.innerHTML = text;
-      currentSection = section;
-    }
-
-    function showSection(section) {
-      var command = '';
-      if (section === 'about') command = 'cat about.txt';
-      else if (section === 'links') command = 'cat links.txt';
-      else if (section === 'languages') {
-        command = 'cat languages.txt';
-        // Initialize language selection to current language
-        for (var i = 0; i < languages.length; i++) {
-          if (languages[i] === currentLang) {
-            languageSelectedIndex = i;
-            break;
-          }
-        }
-      }
-      
-      updateCommand(command);
-      setTimeout(function() {
-        updateContent(section);
-      }, 100);
-    }
-
-    function setLanguage(lang) {
-      currentLang = lang;
-      updateCommand('setlang ' + lang);
-      
-      // Update language selection display immediately
-      setTimeout(function() {
-        updateContent('languages');
-      }, 200);
-      
-      // Update menu items text based on language
-      setTimeout(function() {
-        var menuTexts = {
-          en: ['> About me', '> Links', '> Languages', '> Switch to modern version'],
-          ru: ['> Обо мне', '> Ссылки', '> Языки', '> Переключиться на современную версию'],
-          uk: ['> Про мене', '> Посилання', '> Мови', '> Перейти до сучасної версії']
-        };
-        
-        for (var i = 0; i < menuItems.length; i++) {
-          if (menuTexts[currentLang] && menuTexts[currentLang][i]) {
-            menuItems[i].innerHTML = menuTexts[currentLang][i];
-          }
-        }
-      }, 300);
-    }
-
-    function switchVersion() {
-      // Store current state - simplified for old browsers
-      try {
-        if (window.localStorage) {
-          window.localStorage.setItem('currentLang', currentLang);
-          window.localStorage.setItem('fromRetro', 'true');
-        }
-      } catch(e) {
-        // Storage not available
-      }
-      // Redirect to modern version
-      window.location.href = '../';
-    }
-
-    // Simplified keyboard navigation for old browsers
-    if (document.addEventListener) {
-      document.addEventListener('keydown', function(e) {
-        var keyCode = e.keyCode || e.which;
-        
-        if (inLanguageMenu) {
-          if (e.preventDefault) e.preventDefault();
-          if (keyCode === 40) { // Down arrow
-            languageSelectedIndex = (languageSelectedIndex + 1) % 3;
-            updateContent('languages');
-          } else if (keyCode === 38) { // Up arrow
-            languageSelectedIndex = (languageSelectedIndex - 1 + 3) % 3;
-            updateContent('languages');
-          } else if (keyCode === 13) { // Enter
-            setLanguage(languages[languageSelectedIndex]);
-          } else if (keyCode === 27) { // Escape
-            inLanguageMenu = false;
-            showSection('about');
-            // Reset menu selection to About
-            for (var i = 0; i < menuItems.length; i++) {
-              menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
-            }
-            menuItems[0].className += ' selected';
-            selectedIndex = 0;
-          }
-        } else {
-          if (keyCode === 40) { // Down arrow
-            if (e.preventDefault) e.preventDefault();
-            selectedIndex = (selectedIndex + 1) % menuItems.length;
-            updateHighlight();
-          } else if (keyCode === 38) { // Up arrow
-            if (e.preventDefault) e.preventDefault();
-            selectedIndex = (selectedIndex - 1 + menuItems.length) % menuItems.length;
-            updateHighlight();
-          } else if (keyCode === 13) { // Enter
-            var selectedItem = menuItems[selectedIndex];
-            var section = selectedItem.getAttribute('data-section');
-            if (section) {
-              if (section === 'languages') {
-                for (var i = 0; i < languages.length; i++) {
-                  if (languages[i] === currentLang) {
-                    languageSelectedIndex = i;
-                    break;
-                  }
-                }
-              }
-              handleMenuClick(selectedItem, section);
-            } else if (selectedItem.innerHTML.indexOf('Switch to modern') !== -1 || 
-                      selectedItem.innerHTML.indexOf('Переключиться') !== -1 || 
-                      selectedItem.innerHTML.indexOf('Перейти') !== -1) {
-              switchVersion();
-            }
-          }
-        }
-      });
-    }
-
-    function updateHighlight() {
-      for (var i = 0; i < menuItems.length; i++) {
-        menuItems[i].className = menuItems[i].className.replace(' selected', '').replace('selected', '');
-      }
-      if (menuItems[selectedIndex]) {
-        menuItems[selectedIndex].className += ' selected';
-      }
-    }
-
-    function setLanguageByIndex(index) {
-      if (languages[index]) {
-        setLanguage(languages[index]);
-      }
-    }
-
-    // Check if coming from modern version - simplified for old browsers
-    try {
-      if (window.localStorage) {
-        if (window.localStorage.getItem('fromModern') === 'true') {
-          var savedLang = window.localStorage.getItem('currentLang');
-          if (savedLang) {
-            currentLang = savedLang;
-          }
-          window.localStorage.removeItem('fromModern');
-        }
-      }
-    } catch(e) {
-      // Storage not available
-    }
-
-    // Initialize
-    showSection('about');
-  </script>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
