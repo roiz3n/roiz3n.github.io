@@ -55,10 +55,14 @@ function showSection(section) {
   commandLine.style.display = 'block';
   commandLine.textContent = section === 'about' ? 'cat about.txt' : 'cat links.txt';
   setTimeout(() => {
-    if (section === 'about') aboutBlock.style.display = 'block';
+    if (section === 'about') {
+      aboutBlock.innerHTML = translations[currentLang].aboutContent;
+      aboutBlock.style.display = 'block';
+    }
     if (section === 'links') linksBlock.style.display = 'block';
   }, 300);
 }
+
 
 function showLanguages() {
   showingLanguages = true;
