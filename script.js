@@ -73,7 +73,6 @@ function setLanguage(lang) {
   currentLang = lang;
   document.querySelectorAll('.menu-text')[0].textContent = translations[lang].aboutMenu;
   document.querySelectorAll('.menu-text')[1].textContent = translations[lang].linksMenu;
-  document.querySelector('.legacy-text').textContent = translations[lang].legacyMenu;
   aboutBlock.innerHTML = translations[lang].aboutContent;
   showSection(items[selected].dataset.section || 'about');
 }
