@@ -11,7 +11,17 @@ body {
   overflow: hidden;
 }
 
-/* neon header */
+/* canvas дождя */
+#matrix {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: -1;
+}
+
+/* шапка */
 .header {
   width: 100%;
   display: flex;
@@ -42,24 +52,7 @@ body {
   text-shadow: 0 0 8px #0f0;
 }
 
-/* matrix canvas */
-#matrix {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  z-index: -1;
-}
-
-/* ссылки в столбик */
-#links {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* terminal */
+/* терминал */
 .terminal {
   backdrop-filter: blur(15px);
   background: rgba(15, 15, 30, 0.7);
@@ -72,7 +65,7 @@ body {
 }
 
 .terminal-header {
-background: rgba(30,30,50,0.8);
+  background: rgba(30,30,50,0.8);
   height: 36px;
   display: flex;
   align-items: center;
@@ -101,7 +94,7 @@ background: rgba(30,30,50,0.8);
 
 .terminal-body {
   padding: 20px;
-  font-size: 14px;
+  font-size: 13px;   /* 🔽 чуть меньше шрифт */
   line-height: 1.5;
 }
 
@@ -133,6 +126,12 @@ background: rgba(30,30,50,0.8);
   margin-top: 10px;
 }
 
+#links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 #about a, #links a, .lang-option {
   color: #0ff;
   text-decoration: none;
@@ -150,6 +149,6 @@ background: rgba(30,30,50,0.8);
 }
 
 @media (max-width: 480px) {
-  .terminal-body { font-size: 12px; padding: 15px; }
+  .terminal-body { font-size: 11px; padding: 15px; }
   .menu-item { font-size: 12px; }
 }
