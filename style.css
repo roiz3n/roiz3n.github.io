@@ -152,3 +152,22 @@ body {
   .terminal-body { font-size: 11px; padding: 15px; }
   .menu-item { font-size: 12px; }
 }
+
+/* About и Links в столбик */
+#about, 
+#links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;          /* расстояние между строками */
+  font-size: 14px;   /* уменьшенный шрифт */
+  line-height: 1.4;
+}
+
+#links a {
+  color: #0ff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+#links a:hover {
+  color: #fff;
+  }
