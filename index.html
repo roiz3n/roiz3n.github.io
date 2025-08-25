@@ -1,54 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>roiz3n's bio :3</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>roiz3n — bio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Матрица-дождь -->
+  <!-- Background layers -->
   <canvas id="matrix"></canvas>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+  <div class="scanlines" aria-hidden="true"></div>
 
-  <!-- Шапка -->
-  <header class="header">
-    <h1 class="logo">roiz3n<span class="emoji">:3</span></h1>
-    <div class="status">● online</div>
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <div class="logo" aria-label="roiz3n logo">
+        <span>roiz3n</span>
+        <span class="cute-text">:3</span>
+      </div>
+      <div class="chip" title="online">
+        <span class="dot" aria-hidden="true"></span>
+        <span>status: <strong>online</strong></span>
+      </div>
+    </div>
   </header>
 
-  <!-- Терминал -->
-  <div class="terminal">
-    <div class="terminal-header">
-      <div class="window-controls">
-        <div class="button close" onclick="closeWindow()"></div>
-        <div class="button minimize"></div>
-        <div class="button maximize"></div>
-      </div>
-      <div class="language-toggle" onclick="showLanguages()">🌐</div>
-    </div>
-    <div class="terminal-body">
-      <div id="menu">
-        <div class="menu-item highlight" data-section="about">&gt; <span class="menu-text">About me</span></div>
-        <div class="menu-item" data-section="links">&gt; <span class="menu-text">Links</span></div>
-      </div>
-      <div id="command"></div>
-      <div id="about" class="about-content"></div>
-      <div id="links">
-        <a href="https://discord.com/users/1317586268091060315">Discord</a>
-        <a rel="me" href="https://mastodon.ml/@r01z3n">Mastodon</a>
-        <a href="https://steamcommunity.com/profiles/76561199571513678">Steam</a>
-        <a href="https://polyfauna.t.me">Telegram</a>
-        <a href="https://t.me/roiz3n">Telegram Channel</a>
-        <a href="https://ovk.to/r01z3n">OpenVK</a>
-      </div>
-      <div id="languages">
-        <div class="lang-option" onclick="setLanguage('en')">English</div>
-        <div class="lang-option" onclick="setLanguage('ru')">Русский</div>
-        <div class="lang-option" onclick="setLanguage('uk')">Українська</div>
-      </div>
-    </div>
-  </div>
+  <!-- Main -->
+  <main>
+    <section class="card" aria-labelledby="title">
+      <div class="glow-ring" aria-hidden="true"></div>
+      <div class="card-inner">
+        <div class="content">
+          <h1 id="title" class="title">Bio</h1>
 
-<script src="script.js"></script>
+          <div class="bio-wrap">
+            <pre id="bio" class="bio" tabindex="0">Hi!
+
+Info:
+My nickname: roiz3n
+My surname: Vlad
+My username: @roiz3n
+Pronouns: He/Him
+Languages: 🇷🇺/🇺🇸/🇺🇦
+Country: 🇺🇦
+
+✦ ✧ ✦
+
+Devices:
+Laptop:
+  Asus Vivobook 15 OLED X513EAN
+  Intel Core i3-1125G4
+  16gb RAM
+  Intel UHD Graphics
+  Arch Linux
+Phone:
+  Xiaomi Redmi Note 10 Pro
+  Snapdragon 732G
+  6GB
+
+✦ ✧ ✦
+
+Hobbies:
+  Coding (Python / C / Web)
+  Music: Radiohead, Weezer, Aphex Twin, artifyber
+  Games: Minecraft, Geometry Dash, Trackmania Nations Forever
+
+✦ ✧ ✦
+
+Thank you for reading my bio :3, have a nice day!
+
+P.S: I love friends, always write if you want to chat!
+</pre>
+          </div>
+
+          <div class="actions">
+            <button id="copyBtn">Copy bio</button>
+            <button id="glitchBtn" class="secondary">Glitch</button>
+            <button id="scanBtn" class="secondary">Scanlines</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> roiz3n</span>
+    <span>Made with <span aria-hidden="true">⚡</span> neon vibes</span>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
