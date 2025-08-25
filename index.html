@@ -7,6 +7,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="matrix-bg"></div>
+  <header class="header">
+    <h1 class="logo">roiz3n<span class="emoji">:3</span></h1>
+    <div class="status">● online</div>
+  </header>
+
   <div class="terminal">
     <div class="terminal-header">
       <div class="window-controls">
@@ -14,7 +20,7 @@
         <div class="button minimize"></div>
         <div class="button maximize"></div>
       </div>
-      <div class="language-toggle" onclick="showLanguages()">Languages</div>
+      <div class="language-toggle" onclick="showLanguages()">🌐</div>
     </div>
     <div class="terminal-body">
       <div id="menu">
@@ -22,22 +28,14 @@
         <div class="menu-item" data-section="links">&gt; <span class="menu-text">Links</span></div>
       </div>
       <div id="command"></div>
-      <div id="about" class="about-content">
-Name: Vlad
-14 years old, birthday 08.06.2011
-Country/region: Ukraine, Odessa region
-Current OS: I use arch btw
-Current WM: Hyprland (<a href="https://github.com/end-4/dots-hyprland">end-4</a>)
-Phone: Redmi Note 10 Pro[6/128] (<a href="https://github.com/TheWildJames/KernelSU-Next">KernelSU Next</a>)
-Interests: Root, Root hiding on phone, Linux, Android, AOSP, Music
-      </div>
+      <div id="about" class="about-content"></div>
       <div id="links">
-<a href="https://discord.com/users/1317586268091060315">Discord (Profile)</a>
-<a rel="me" href="https://mastodon.ml/@r01z3n">Mastodon</a>
-<a href="https://steamcommunity.com/profiles/76561199571513678">Steam</a>
-<a href="https://polyfauna.t.me">Telegram</a>
-<a href="https://t.me/roiz3n">Telegram Channel</a>
-<a href="https://ovk.to/r01z3n">OpenVK</a>
+        <a href="https://discord.com/users/1317586268091060315">Discord</a>
+        <a rel="me" href="https://mastodon.ml/@r01z3n">Mastodon</a>
+        <a href="https://steamcommunity.com/profiles/76561199571513678">Steam</a>
+        <a href="https://polyfauna.t.me">Telegram</a>
+        <a href="https://t.me/roiz3n">Telegram Channel</a>
+        <a href="https://ovk.to/r01z3n">OpenVK</a>
       </div>
       <div id="languages">
         <div class="lang-option" onclick="setLanguage('en')">English</div>
