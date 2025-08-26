@@ -19,12 +19,20 @@
 /* Base */
 *{ box-sizing: border-box }
 html,body{ height:100%; }
-body{
-  margin:0; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto;
-  color:var(--fg); background: radial-gradient(1200px 600px at 10% 10%, #0b0d1f 0, transparent 60%),
-                     radial-gradient(1000px 600px at 90% 20%, #0a142a 0, transparent 60%),
-                     linear-gradient(160deg, #06060d, #070813 65%, #06060d);
-  overflow-x:hidden; letter-spacing:.2px;
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, Segoe UI, Roboto;
+  color: var(--fg);
+
+  /* Новый плавный фон */
+  background: radial-gradient(1200px 800px at 10% 15%, #0b0d1f 0%, #05050a 80%),
+              radial-gradient(1000px 700px at 90% 20%, #0a142a 0%, #05050a 85%),
+              linear-gradient(160deg, #06060d, #070813 65%, #05050a 100%);
+  
+  background-attachment: fixed;
+  background-size: cover;
+  overflow-x: hidden;
+  letter-spacing: .2px;
 }
 
 /* Background grid, aurora blobs, scanlines */
