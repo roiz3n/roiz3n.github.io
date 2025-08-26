@@ -14,24 +14,24 @@ $('#copyBtn').addEventListener('click', async () => {
     const sel = window.getSelection();
     const range = document.createRange();
     range.selectNodeContents($('#bio'));
-    sel.removeAllRanges(); sel.addRange(range);
+    sel.removeAllRanges();
+    sel.addRange(range);
     document.execCommand('copy');
     sel.removeAllRanges();
     flash($('#copyBtn'), 'Copied!');
   }
 });
 
-function flash(btn, text){
-  const old = btn.textContent; btn.textContent = text;
-  setTimeout(()=>{ btn.textContent = old; }, 1200);
+function flash(btn, text) {
+  const old = btn.textContent;
+  btn.textContent = text;
+  setTimeout(() => { btn.textContent = old; }, 1200);
 }
 
-// Pointer parallax
+// Pointer parallax (aurora moves slightly with cursor)
 const aurora = $('.aurora');
 window.addEventListener('pointermove', e => {
-  const x = (e.clientX / window.innerWidth - .5) * 10;
-  const y = (e.clientY / window.innerHeight - .5) * 10;
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 10;
   aurora.style.transform = `translate(${x}px, ${y}px)`;
-}, {passive:true});
-
-setInterval(draw, 50);
+}, { passive: true });
