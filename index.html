@@ -1,108 +1,58 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>roiz3n@femboy:~$</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Background layers -->
-  <div class="grid" aria-hidden="true"></div>
-  <div class="aurora" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="blob b4"></div>
-  </div>
-
-  <!-- Header -->
-  <header>
-  <div class="wrap">
-    <div class="logo" aria-label="roiz3n logo">
-      <span>roiz3n</span>
-      <span class="cute-text">:3</span>
-    </div>
-    <div class="chip" title="online">
-      <span class="dot" aria-hidden="true"></span>
-      <span>status: <strong>online</strong></span>
-    </div>
-  </div>
-</header>
-
-
-  <!-- Main -->
-  <main>
-    <section class="card" aria-labelledby="title">
-      <div class="glow-ring" aria-hidden="true"></div>
-      <div class="card-inner">
-        <div class="content">
-          <h1 id="title" class="title">Bio</h1>
-
-          <div class="bio-wrap">
-            <pre id="bio" class="bio" tabindex="0">Hi!
-
-Info:
-My nickname: roiz3n
-My surname: Vlad
-Pronouns: He/Him
-Languages: 🇷🇺/🇺🇸/🇺🇦
-Country: 🇺🇦
-
-✦ ✧ ✦
-
-Devices:
-              
-Laptop:
-  Asus Vivobook 15 OLED X513EAN
-  Intel Core i3 1125G4
-  16gb
-  Intel UHD Graphics
-  Arch Linux with Hyprland
-              
-Phone:
-  Redmi Note 10 Pro
-  Snapdragon 732G
-  6gb
-
-✦ ✧ ✦
-
-Hobbies:
-  Coding on Python/C/Web
-  Music: Radiohead, RHCP, Weezer, SOAD, Aphex Twin, С418, artifyber.
-  Playing Minecraft, Geometry Dash & Trackmania Nations Forever.
-
-✦ ✧ ✦
-
-Links:
-  Discord: roiz3n
-  <a rel="me" href="https://mastodon.ml/@r01z3n">Mastodon</a>
-  <a href="https://polyfauna.t.me">Telegram</a>
-  <a href="https://t.me/roiz3n">Telegram Channel</a>
-  <a href="https://ovk.to/roiz3n">OpenVK</a>
-              
-✦ ✧ ✦
-              
-Thank you for reading my bio :3, have a nice day
-
-P.S: I love friends, always write if you want to chat!
-
-</pre>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>roiz3n :3</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="card" aria-labelledby="card-title">
+        <header class="card-header">
+          <div class="top-row">
+            <div class="title-wrap">
+              <h1 id="card-title">roiz3n :3</h1>
+              <p class="subtitle" id="subtitle">Мое био в виде сайта</p>
+            </div>
+            <div class="controls">
+              <div class="lang-switch" role="tablist" aria-label="Язык">
+                <button class="lang active" data-lang="ru">RU</button>
+                <button class="lang" data-lang="uk">UK</button>
+                <button class="lang" data-lang="en">EN</button>
+              </div>
+            </div>
           </div>
+        </header>
 
-          <div class="actions">
-            <button id="copyBtn">Copy bio</button>
-          </div>
+        <nav class="tabs" role="tablist" aria-label="Разделы">
+          <button class="tab active" role="tab" aria-selected="true" data-target="about" id="tab-about">Обо мне</button>
+          <button class="tab" role="tab" aria-selected="false" data-target="links" id="tab-links">Ссылки</button>
+        </nav>
+
+        <div class="tab-panels">
+          <article id="about" class="panel" role="tabpanel">
+            <pre class="bio" id="bioText" aria-live="polite"></pre>
+          </article>
+
+          <article id="links" class="panel hidden" role="tabpanel">
+            <ul class="links-list">
+              <li><strong>Discord:</strong> <span class="mono">roiz3n</span> <button class="copy" data-copy="roiz3n" aria-label="Копировать Discord">Copy</button></li>
+              <li><strong>Mastodon:</strong> <a rel="me" href="https://mastodon.ml/@r01z3n" class="external">Mastodon</a></li>
+              <li><strong>Telegram:</strong> <a href="https://polyfauna.t.me" class="external">Telegram</a></li>
+              <li><strong>Telegram Channel:</strong> <a href="https://t.me/roiz3n" class="external">Telegram Channel</a></li>
+              <li><strong>OpenVK:</strong> <a href="https://ovk.to/roiz3n" class="external">OpenVK</a></li>
+            </ul>
+            <p class="note" id="linksNote">Примечание: все внешние ссылки откроются в новой вкладке.</p>
+          </article>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <span>© <span id="year"></span> roiz3n</span>
-    <span>Made with <span aria-hidden="true">⚡</span> neon vibes</span>
-  </footer>
+        <footer class="card-footer">
+          <small id="footerText">Спасибо за просмотр — всегда рад пообщаться 💬</small>
+        </footer>
+      </section>
+    </main>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
