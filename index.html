@@ -1,58 +1,115 @@
 <!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>roiz3n :3</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="wrap">
-      <section class="card" aria-labelledby="card-title">
-        <header class="card-header">
-          <div class="top-row">
-            <div class="title-wrap">
-              <h1 id="card-title">roiz3n :3</h1>
-              <p class="subtitle" id="subtitle">Мое био в виде сайта</p>
-            </div>
-            <div class="controls">
-              <div class="lang-switch" role="tablist" aria-label="Язык">
-                <button class="lang active" data-lang="ru">RU</button>
-                <button class="lang" data-lang="uk">UK</button>
-                <button class="lang" data-lang="en">EN</button>
-              </div>
-            </div>
-          </div>
-        </header>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>roiz3n bio</title>
+  <style>
+    body {
+      background: #0c0c0c;
+      color: #c7c7c7;
+      font-family: "Fira Code", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+    }
+    .card {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 20px 30px;
+      max-width: 700px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    h1 {
+      color: #5ccfe6;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .code {
+      background: #111;
+      padding: 10px 15px;
+      border-radius: 4px;
+      color: #ccc;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .label {
+      color: #9fdf6c;
+      display: inline-block;
+      min-width: 180px;
+    }
+    a {
+      color: #5ccfe6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>roiz3n bio</h1>
+    <div class="code"># pacman -Sii roiz3n</div>
 
-        <nav class="tabs" role="tablist" aria-label="Разделы">
-          <button class="tab active" role="tab" aria-selected="true" data-target="about" id="tab-about">Обо мне</button>
-          <button class="tab" role="tab" aria-selected="false" data-target="links" id="tab-links">Ссылки</button>
-        </nav>
+    <div class="section">
+      <div><span class="label">Name</span>: roiz3n</div>
+      <div><span class="label">Age</span>: 14 y.o.</div>
+      <div><span class="label">Location</span>: Ukraine</div>
+      <div><span class="label">Note</span>: Text me if u want.</div>
+    </div>
 
-        <div class="tab-panels">
-          <article id="about" class="panel" role="tabpanel">
-            <pre class="bio" id="bioText" aria-live="polite"></pre>
-          </article>
+    <div class="section">
+      <div><span class="label">Devices</span>:</div>
+      <div>- Redmi Note 10 Pro (6/128) - A16 CrDroid</div>
+      <div>- Redmi 9 (4/64) (bricked) - A11 Nusantara Project</div>
+      <div>- Samsung Galaxy A30 (3/32) (broken screen) - A11 OneUI</div>
+      <div>- ASUS VivoBook X513EAN - Arch Linux</div>
+      <div>- ASUS K50IP - Windows 7</div>
+    </div>
 
-          <article id="links" class="panel hidden" role="tabpanel">
-            <ul class="links-list">
-              <li><strong>Discord:</strong> <span class="mono">roiz3n</span> <button class="copy" data-copy="roiz3n" aria-label="Копировать Discord">Copy</button></li>
-              <li><strong>Mastodon:</strong> <a rel="me" href="https://mastodon.ml/@r01z3n" class="external">Mastodon</a></li>
-              <li><strong>Telegram:</strong> <a href="https://polyfauna.t.me" class="external">Telegram</a></li>
-              <li><strong>Telegram Channel:</strong> <a href="https://t.me/roiz3n" class="external">Telegram Channel</a></li>
-              <li><strong>OpenVK:</strong> <a href="https://ovk.to/roiz3n" class="external">OpenVK</a></li>
-            </ul>
-            <p class="note" id="linksNote">Примечание: все внешние ссылки откроются в новой вкладке.</p>
-          </article>
-        </div>
+    <div class="section">
+      <div><span class="label">Social</span>:</div>
+      <div>Discord: roiz3n</div>
+      <div>Github: <a href="https://github.com/roiz3n" target="_blank">roiz3n</a></div>
+      <div>Mastodon: <a href="https://mastodon.ml/@r01z3n" target="_blank">r01z3n</a></div>
+    </div>
 
-        <footer class="card-footer">
-          <small id="footerText">Спасибо за просмотр — всегда рад пообщаться 💬</small>
-        </footer>
-      </section>
-    </main>
+    <div class="section">
+      <div><span class="label">Favourite bands & artists</span>:</div>
+      <div>Radiohead, Weezer, Nirvana, Red Hot Chili Peppers, System Of A Down, Green Day, Aphex Twin, Limp Bizkit, Arctic Monkeys, The Smashing Pumpkins, my bloody valentine, Splean, C418, artifyber (this is far from the entire list)</div>
+    </div>
 
-    <script src="script.js"></script>
-  </body>
+    <div class="section">
+      <div><span class="label">Blog</span>: <a href="https://t.me/roiz3n" target="_blank">*click*</a></div>
+    </div>
+
+    <div class="footer">Made with 🩵 by roiz3n</div>
+  </div>
+
+  <script>
+    // маленькая анимация для "code" строки
+    const code = document.querySelector('.code');
+    let txt = code.textContent;
+    code.textContent = "";
+    let i = 0;
+    function typing() {
+      if (i < txt.length) {
+        code.textContent += txt.charAt(i);
+        i++;
+        setTimeout(typing, 70);
+      }
+    }
+    typing();
+  </script>
+</body>
 </html>
